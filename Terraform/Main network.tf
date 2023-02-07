@@ -17,12 +17,12 @@ resource "aws_vpc" "main" {
   }
   
  }
- resource "aws_subnet" "subnet" {
+ resource "aws_subnet" "subnet2" {
   vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = "10.0.2.0/24"
 
   tags = {
-    Name = "subnet 1"
+    Name = "subnet 2"
   }
  }
 
