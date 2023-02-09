@@ -1,31 +1,17 @@
-resource "aws_vpc" "main" {
-  cidr_block       = "10.0.0.0/16"
-  
-
-  tags = {
-    Name = "my vpc "
-  }
-
+resource "aws_vpc" "ntiervpc" {
+    cidr_block = var.vpc_range
+    tags = {
+      "Name" = "ntier"
+    }
 }
-#this is for subnet
- resource "aws_subnet" "subnet" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
 
-  tags = {
-    Name = "subnet 1"
-  }
-  
- }
- resource "aws_subnet" "subnet2" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.2.0/24"
 
-  tags = {
-    Name = "subnet 2"
-  }
- }
-
- resource "aws_s3_bucket" "example"{
-    bucket = "preebuck"
-  }
+resource "aws_subnet" "subnets" {
+    count = length(var.subnet_cidrs)
+    cidr_block = var.subnet_cidrs[count.index]
+    vpc_id = aws_vpc.ntiervpc.id   
+    
+     tags = {
+      "Name" = var.subnet_name_tags[count.index]
+    }
+}
